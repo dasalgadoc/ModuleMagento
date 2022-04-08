@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <!--head>
+        <script id="Microsoft_Omnichannel_LCWidget" src="https://oc-cdn-ocprod.azureedge.net/livechatwidget/scripts/LiveChatBootstrapper.js" data-app-id="0d303121-4516-4673-b013-9211a6260c15" data-lcw-version="prod" data-org-id="2402e984-b835-486c-8828-d9f295bfe05d" data-color-override="#6C2827" data-font-family-override="Barlow" data-org-url="https://org72f74ae1-crm.omnichannelengagementhub.com">
+    </head-->
+    <body>
+
+
+        <referenceBlock name="head.additional">
+            <block class="Magento\Framework\View\Element\Template" name="frontuser" template="Esguerra_Chat::chat/chat2.phtml" />
+        </referenceBlock>
+
+
+        <referenceBlock name="main">
+            <block as="seo_canonical_cms" class="Magento\Cms\Block\Widget\Block" name="intcomex.chat" template="Esguerra_Chat::chat/chat.phtml">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Esguerra\Chat\ViewModel\Chat\Intcomex</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

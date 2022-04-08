@@ -1,0 +1,131 @@
+<script>
+    require(['jquery'], function($) {
+        jQuery(document).ready(function() {
+            //alert("Page loaded.");
+            (function(auth, $) {
+                "use strict";
+
+                var callback = null;
+
+                //Force Login for Anonymous users. Below line can be commented if force login is not needed.
+                //jQuery.cookie("ImplicitGrantForceLogin", 1);
+               document.cookie = "ImplicitGrantForceLogin=1";
+
+                //let clientId = "6d08757f-4f46-e911"; //Add the Client ID registered on CRM.
+
+                auth.getAuthenticationToken = function(callbackFn) {
+                    callback = callbackFn;
+
+                    jQuery.ajax({
+                        type: 'GET',
+                        //url: `/api/Authorization/GetToken`, //Reemplazar por la url que genera el token
+                        //url: 'https://testchat.intcomex.com/api/GenerateJWT/dea70057-eb6b-eb11-a812-00224804d93d?issuer=store.intcomex.com&email=radoslaw.nadarzynski+cb@vaimo.com',
+//                       url: 'https://chat.intcomex.com/api/jwt/generate/283d3f95-7323-eb11-a813-00224802b54d?issuer=storedvlp.intcomex.com&email=vijohausoyu-3235@yopmail.com',
+			 url: 'https://chat.intcomex.com/api/jwt/generate/520a180c-1bee-eb11-bacb-00224809ae52?issuer=storedvlp.intcomex.com&email=radoslaw.nadarzynski+cb@vaimo.com',
+                        //url: 'https://testchat.intcomex.com/api/GenerateJWT/283d3f95-7323-eb11-a813-00224802b54d?issuer=storedvlp.intcomex.com&email=steven.triana@intcomex.com',
+                        cache: false,
+                        headers: {
+                            "Accept": "*/*",
+                            "Accept-Encoding": "gzip, deflate, br",
+                            "Access-Control-Allow-Origin": "*",
+                            "Connection": "keep-alive",
+                            "User-Agent": "application/json",
+                            "Content-Type": "application/json; charset=utf-8",
+                            "client_id": "0608bcf18f034b2e8c14668f5fe69551",
+                            "client_secret": "8785fD50BA4049709480351a9Eb26044"
+                        },
+                        //contentType: 'application/json; charset=utf-8',
+                        success: handleGetAuthenticationTokenSuccess,
+                        error: jqXHR => callback(null, jqXHR)
+                    });
+                }
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+                function handleGetAuthenticationTokenSuccess(data, status, jqXHR) {
+                    console.log("jqXHR");
+                    console.log(jqXHR);
+                    console.log("data");
+                    console.log(data);
+                  var jsonResult = jqXHR;//JSON.parse(jqXHR);
+                    console.log("jsonResult");
+                    console.log(jsonResult);
+                     if (data && data.status == 401) {
+                        var forceLogin = Number(getCookie("ImplicitGrantForceLogin")) === 1;
+                        console.log(1);
+                        if (forceLogin) {
+                            // If the user is not logged in, redirect to login page
+                            console.log(2);
+                            redirectToLogin();
+                        } else {
+                            console.log(3);
+                            callback(null, jsonResult); //Run callback method with error message
+                        }
+                    } else {
+                        // Pass the token to the callback function
+                        console.log(4);
+                        callback(data);
+                    }
+                }
+
+                function redirectToLogin() {
+                    var redirectUrl = window.location;
+                    var loginUrl = window.location.origin + '/SignIn?returnUrl=' + encodeURIComponent(redirectUrl);
+                    window.location = loginUrl;
+                }
+
+            }(window.auth || (window.auth = {}), window.jQuery));
+
+
+            // Part 2: Define Callback function and call window.auth.getAuthenticationToken to fetch the token.
+
+            var callbackFn = function(data, err) {
+                if (data) {
+                    //Token received
+                    console.log(data);
+                } else {
+                    console.log("Error");
+                    if (err) {
+                        // 401 is returned for anonymous users.
+                        if (err.status == 401) {
+                            console.log("Login required");
+                        }
+                        // To handle any other error
+                        else {
+                            console.log(err);
+                        }
+                    }
+                }
+            }
+
+            // Fetch Token Call
+            window.auth.getAuthenticationToken(callbackFn);
+        });
+    });
+</script>
+
+
+<?php
+
+/**
+ * @var $viewModel  \Esguerra\Chat\ViewModel\Chat\Intcomex
+ */
+$viewModel = $block->getViewModel();
+
+/*if ( $viewModel->isEnabled() ) {*/
+echo $viewModel->getChat();
+/*}*/

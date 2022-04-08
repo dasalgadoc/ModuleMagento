@@ -1,0 +1,27 @@
+{
+    "authors": [
+        {
+            "name": "Diego Salgado Castellanos",
+            "email": "diego.alexander@intcomex.com",
+            "role": "Software Developer"
+        }
+    ],
+
+    "name": "wagento/patterns",
+    "description": "Wagento Test module",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "require": {
+        "guzzlehttp/guzzle": "^6.0",
+        "ext-openssl": "*"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Wagento\\Patterns\\": ""
+        }
+    }
+
+}
