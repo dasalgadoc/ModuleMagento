@@ -333,6 +333,7 @@ return [
         'WeltPixel_Backend' => 1,
         'WeltPixel_OwlCarouselSlider' => 1,
         'Yotpo_Yotpo' => 1,
+        'dsalgado_ProductComments' => 1,
         'dsalgado_TermsConditions' => 1,
         'dsalgado_mymodule' => 1
     ]
